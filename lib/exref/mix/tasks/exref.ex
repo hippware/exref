@@ -5,6 +5,7 @@ defmodule Mix.Tasks.Exref do
 
   @shortdoc "Checks all function calls using xref"
 
+  @default_ignores [__info__: 1, behaviour_info: 1]
   @default_checks [
     :locals_not_used, :exports_not_used,
     :deprecated_function_calls, :deprecated_functions
@@ -80,7 +81,7 @@ defmodule Mix.Tasks.Exref do
     behaviour_callbacks = get_behaviour_callbacks(xref_check, attributes)
 
     # And create a flat {M, F, A} list
-    [ignore_xref, behaviour_callbacks]
+    [@default_ignores, ignore_xref, behaviour_callbacks]
     |> List.flatten
     |> List.foldl([],
       fn ({f, a}, acc) -> [{mod, f, a} | acc]
