@@ -133,37 +133,19 @@ defmodule Mix.Tasks.Exref do
   end
 
   defp display_xref_result_fun(type, xref_result) do
-    {source, s_mfa, t_mfa} =
-      case xref_result do
-        {mfa_source, mfa_target} ->
-          {format_mfa_source(mfa_source),
-           format_mfa(mfa_source),
-           format_mfa(mfa_target)}
-        mfa_target ->
-          {format_mfa_source(mfa_target),
-           format_mfa(mfa_target),
-           :undefined}
-      end
+    {source, s_mfa, t_mfa} = xref_result_fun(xref_result)
+    Mix.shell.info xref_warning_string(type, source, s_mfa, t_mfa)
+  end
 
-    str =
-      case type do
-        :undefined_function_calls ->
-          "#{source}Warning: #{s_mfa} calls undefined function #{t_mfa}"
-        :undefined_functions ->
-          "#{source}Warning: #{s_mfa} is undefined function"
-        :locals_not_used ->
-          "#{source}Warning: #{s_mfa} is unused local function"
-        :exports_not_used ->
-          "#{source}Warning: #{s_mfa} is unused export"
-        :deprecated_function_calls ->
-          "#{source}Warning: #{s_mfa} calls deprecated function #{t_mfa}"
-        :deprecated_functions ->
-          "#{source}Warning: #{s_mfa} is deprecated function"
-        other ->
-          "#{source}Warning: #{s_mfa} - #{t_mfa} xref check: #{other}"
-      end
-
-    Mix.shell.info str
+  defp xref_result_fun({mfa_source, mfa_target}) do
+    {format_mfa_source(mfa_source),
+     format_mfa(mfa_source),
+     format_mfa(mfa_target)}
+  end
+  defp xref_result_fun(mfa_target) do
+    {format_mfa_source(mfa_target),
+     format_mfa(mfa_target),
+     :undefined}
   end
 
   defp format_mfa({m, f, a}) do
@@ -177,6 +159,27 @@ defmodule Mix.Tasks.Exref do
       {source, line} -> "#{source}:#{line}: "
     end
   end
+
+  defp xref_warning_string(:undefined_function_calls, source, s_mfa, t_mfa),
+    do: "#{source}Warning: #{s_mfa} calls undefined function #{t_mfa}"
+
+  defp xref_warning_string(:undefined_functions, source, s_mfa, t_mfa),
+    do: "#{source}Warning: #{s_mfa} is undefined function"
+
+  defp xref_warning_string(:locals_not_used, source, s_mfa, t_mfa),
+    do: "#{source}Warning: #{s_mfa} is unused local function"
+
+  defp xref_warning_string(:exports_not_used, source, s_mfa, t_mfa),
+    do: "#{source}Warning: #{s_mfa} is unused export"
+
+  defp xref_warning_string(:deprecated_function_calls, source, s_mfa, t_mfa),
+    do: "#{source}Warning: #{s_mfa} calls deprecated function #{t_mfa}"
+
+  defp xref_warning_string(:deprecated_functions, source, s_mfa, t_mfa),
+    do: "#{source}Warning: #{s_mfa} is deprecated function"
+
+  defp xref_warning_string(other, source, s_mfa, t_mfa),
+    do: "#{source}Warning: #{s_mfa} - #{t_mfa} xref check: #{other}"
 
   #
   # Extract an element from a tuple, or undefined if N > tuple size
