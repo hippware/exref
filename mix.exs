@@ -10,11 +10,18 @@ defmodule Exref.Mixfile do
       elixir:          "~> 1.2",
       build_embedded:  Mix.env == :prod,
       start_permanent: Mix.env == :prod,
-      deps:            [],
+      deps:            deps,
       description:     description,
       package:         package,
       source_url:      @github_url,
       homepage_url:    @github_url,
+    ]
+  end
+
+  defp deps do
+    [
+      {:credo, "~> 0.4.11", only: :dev},
+      {:dogma, "~> 0.1.7", only: :dev}
     ]
   end
 
