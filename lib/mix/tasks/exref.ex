@@ -163,19 +163,19 @@ defmodule Mix.Tasks.Exref do
   defp xref_warning_string(:undefined_function_calls, source, s_mfa, t_mfa),
     do: "#{source}Warning: #{s_mfa} calls undefined function #{t_mfa}"
 
-  defp xref_warning_string(:undefined_functions, source, s_mfa, t_mfa),
+  defp xref_warning_string(:undefined_functions, source, s_mfa, _t_mfa),
     do: "#{source}Warning: #{s_mfa} is undefined function"
 
-  defp xref_warning_string(:locals_not_used, source, s_mfa, t_mfa),
+  defp xref_warning_string(:locals_not_used, source, s_mfa, _t_mfa),
     do: "#{source}Warning: #{s_mfa} is unused local function"
 
-  defp xref_warning_string(:exports_not_used, source, s_mfa, t_mfa),
+  defp xref_warning_string(:exports_not_used, source, s_mfa, _t_mfa),
     do: "#{source}Warning: #{s_mfa} is unused export"
 
   defp xref_warning_string(:deprecated_function_calls, source, s_mfa, t_mfa),
     do: "#{source}Warning: #{s_mfa} calls deprecated function #{t_mfa}"
 
-  defp xref_warning_string(:deprecated_functions, source, s_mfa, t_mfa),
+  defp xref_warning_string(:deprecated_functions, source, s_mfa, _t_mfa),
     do: "#{source}Warning: #{s_mfa} is deprecated function"
 
   defp xref_warning_string(other, source, s_mfa, t_mfa),
