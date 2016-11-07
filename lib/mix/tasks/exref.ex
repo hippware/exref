@@ -5,7 +5,11 @@ defmodule Mix.Tasks.Exref do
 
   @shortdoc "Checks all function calls using xref"
 
-  @default_ignores [__info__: 1, behaviour_info: 1]
+  @default_ignores [
+    __info__: 1, __struct__: 0, __struct__: 1,
+    'MACRO-__using__': 2, behaviour_info: 1
+  ]
+
   @default_checks [
     :locals_not_used, :exports_not_used,
     :deprecated_function_calls, :deprecated_functions
