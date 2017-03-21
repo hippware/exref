@@ -15,8 +15,8 @@ defmodule Mix.Tasks.Exref do
     # :exports_not_used,
     :deprecated_function_calls,
     :deprecated_functions,
-    :undefined_function_calls,
-    :undefined_functions
+    # :undefined_function_calls,
+    # :undefined_functions
   ]
 
   def run(_args) do
